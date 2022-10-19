@@ -1,1 +1,3 @@
 *.exe
+.htaccess
+.fancy-index/
