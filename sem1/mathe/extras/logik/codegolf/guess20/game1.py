@@ -1,0 +1,1 @@
+exec('import random;t=5;r=random.randint(1,20);x=input;p=print\nwhile t>0:\n g=int(x(">"));\n if g==r:p("*");exit()\n elif g<r:p("+")\n else:p("-")\n t-=1\np("X")')
