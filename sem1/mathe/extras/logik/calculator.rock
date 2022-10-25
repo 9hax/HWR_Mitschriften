@@ -1,0 +1,12 @@
+The text is "Operator"
+Shout the text
+Listen to the Operator
+
+Shout "The first Number!"
+Listen to the Number
+
+Shout "The second Number!"
+Listen to the Other
+
+Let the total be the Number with the Other
+Shout the total
