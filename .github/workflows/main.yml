@@ -8,6 +8,6 @@ jobs:
       - run: mkdir ~/.ssh
       - run: touch ~/.ssh/known_hosts
       - run: ssh-keyscan -H 9hax.net >> ~/.ssh/known_hosts 
-      - run: echo ${{ secrets.LECTURENOTES_PUSH_SSH }} > upload.id
+      - run: echo \'${{ secrets.LECTURENOTES_PUSH_SSH }}\' > upload.id
       - run: chmod 400 upload.id
       - run: ssh -i upload.id githubactions@9hax.net "cd /var/www/lecturenotes.9hax.net; git pull"
