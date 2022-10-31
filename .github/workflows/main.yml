@@ -5,6 +5,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo Uploading...
+      - run: mkdir ~/.ssh
+      - run: touch ~/.ssh/known_hosts
       - run: ssh-keyscan -H 9hax.net >> ~/.ssh/known_hosts 
       - run: echo ${{ secrets.LECTURENOTES_PUSH_SSH }} > upload.id
       - run: chmod 400 upload.id
