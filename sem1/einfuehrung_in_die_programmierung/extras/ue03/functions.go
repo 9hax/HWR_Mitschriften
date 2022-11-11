@@ -46,15 +46,15 @@ func main() {
 }
 
 func makeMultiTable(sizex, sizey int) [][]int {
-	table := make([][]int, sizey)
+	a := make([][]int, sizey)
 
-	for y := range table {
-		table[y] = make([]int, sizex)
-		for x := range table[y] {
-			table[y][x] = (x + 1) * (y + 1)
+	for y := range a {
+		a[y] = make([]int, sizex)
+		for x := range a[y] {
+			a[y][x] = (x + 1) * (y + 1)
 		}
 	}
-	return table
+	return a
 }
 
 func printTable(table [][]int) {
@@ -66,23 +66,23 @@ func printTable(table [][]int) {
 	}
 }
 
-func printBigger(table, b int) { // Task 2: Print the bigger value of the two input integers to the screen.
-	if table < b {
+func printBigger(a, b int) { // Task 2: Print the bigger value of the two input integers to the screen.
+	if a < b {
 		fmt.Println(b)
 	} else {
-		fmt.Println(table)
+		fmt.Println(a)
 	}
 }
 
-func returnBigger(table, b int) int {
-	if table < b {
+func returnBigger(a, b int) int {
+	if a < b {
 		return b
 	}
-	return table
+	return a
 }
 
-func swapValues(table, b int) (int, int) {
-	return b, table
+func swapValues(a, b int) (int, int) {
+	return b, a
 }
 
 func facIter(limit int) int {
