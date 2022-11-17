@@ -1,3 +1,4 @@
 *.exe
 .htaccess
 .fancy-index/
+*.DS_STORE
