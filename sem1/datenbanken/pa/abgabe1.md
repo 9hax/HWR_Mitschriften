@@ -25,7 +25,14 @@ Durch diese Zusatzinformationen, die direkt an jedem Ticket hängen, kann der Su
 # Aufgabe 4
 
 ```sql
-BEGIN TRANSACTION;
+DROP TABLE IF EXISTS "Software";
+DROP TABLE IF EXISTS "Device";
+DROP TABLE IF EXISTS "User";
+DROP TABLE IF EXISTS "Ticket";
+DROP TABLE IF EXISTS "hasSoftware";
+DROP TABLE IF EXISTS "hasDevice";
+DROP TABLE IF EXISTS "hasTicket";
+
 CREATE TABLE IF NOT EXISTS "Software" (
 	"id"					INTEGER,
 	"name"					TEXT,
@@ -37,15 +44,10 @@ CREATE TABLE IF NOT EXISTS "Device" (
 	"installDate"	TEXT,
 	"hasSoftware"	INTEGER,
 	"Vendor"		TEXT,
-	FOREIGN KEY("hasSoftware") REFERENCES "Software"("id")
 );
 CREATE TABLE IF NOT EXISTS "User" (
 	"id"		INTEGER,
-	"name"		TEXT,
-	"tickets"	INTEGER,
-	"devices"	INTEGER,
-	FOREIGN KEY("devices") REFERENCES "Device"("id"),
-	FOREIGN KEY("tickets") REFERENCES "Ticket"("id")
+	"name"		TEXT
 );
 CREATE TABLE IF NOT EXISTS "Ticket" (
 	"id"				INTEGER,
@@ -55,6 +57,25 @@ CREATE TABLE IF NOT EXISTS "Ticket" (
 	"conceriningDevice"	INTEGER,
 	FOREIGN KEY("conceriningDevice") REFERENCES "Device" ("id")
 );
+CREATE TABLE IF NOT EXISTS "hasTicket" (
+	"userid" INTEGER,
+	"ticketid" INTEGER,
+	FOREIGN KEY("ticketid") REFERENCES "Ticket" ("id"),
+	FOREIGN KEY("userid") REFERENCES "User" ("id")
+);
+CREATE TABLE IF NOT EXISTS "hasSoftware" (
+	"deviceid" INTEGER,
+	"softwareid" INTEGER,
+	FOREIGN KEY ("deviceid") REFERENCES "Device" ("id"),
+	FOREIGN KEY ("softwareid") REFERENCES "Software" ("id")
+);
+CREATE TABLE IF NOT EXISTS "hasDevice" (
+	"userid" INTEGER,
+	"deviceid" INTEGER,
+	FOREIGN KEY ("userid") REFERENCES "User" ("id"),
+	FOREIGN KEY ("deviceid") REFERENCES "Device" ("id")
+);
+
 COMMIT;
 
 ```
