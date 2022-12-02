@@ -15,3 +15,7 @@ func Pop() string {
 func IsEmpty() bool {
 	return len(queue) == 0
 }
+
+func Clear() {
+	queue = make([]string, 0)
+}
