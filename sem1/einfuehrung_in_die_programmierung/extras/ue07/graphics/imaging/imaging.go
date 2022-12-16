@@ -4,6 +4,7 @@ import (
 	"image"
 	"image/color"
 	"image/gif"
+	"math"
 	"os"
 )
 
@@ -108,16 +109,77 @@ func DrawRect(img *image.Paletted, x0, y0, x1, y1 int, col uint8) {
 	DrawLine(img, x0, y0, x0, y1, col)
 }
 
-func DrawCircle(img *image.Paletted, x, y, dia int, col uint8) {
-	// Calculate the radius of the circle
-	radius := dia / 2
-	// Iterate over the bounding box of the circle
-	for i := x - radius; i <= x+radius; i++ {
-		for j := y - radius; j <= y+radius; j++ {
-			// If the point is close to the radius, set the pixel
-			if abs((i-x)*(i-x)+(j-y)*(j-y)-(radius*radius)) <= radius {
-				SetPixel(img, i, j, col)
+/*
+	func DrawCircle(img *image.Paletted, x, y, dia int, filled bool, col uint8) {
+		// Calculate the radius of the circle
+		radius := dia / 2
+
+		// Iterate over the bounding box of the circle
+		for i := x - radius; i <= x+radius; i++ {
+			for j := y - radius; j <= y+radius; j++ {
+				// Calculate the distance from the center of the circle
+				distance := (i-x)*(i-x) + (j-y)*(j-y)
+				var error int
+				if filled {
+					error = distance - (radius * radius)
+				} else {
+					error = abs(distance - (radius * radius))
+				}
+				// If the distance is less than or equal to the radius, set the pixel
+				if error <= radius {
+					SetPixel(img, i, j, col)
+				}
 			}
+		}
+	}
+*/
+func DrawCircle(img *image.Paletted, x, y, dia int, filled bool, col uint8) {
+	if filled {
+		// Draw a filled circle by connecting the points on the circumference
+		for i := 0; i < dia; i++ {
+			for j := 0; j < dia; j++ {
+				if math.Sqrt(float64((i-dia/2)*(i-dia/2)+(j-dia/2)*(j-dia/2))) < float64(dia/2) {
+					img.SetColorIndex(x+i-dia/2, y+j-dia/2, col)
+				}
+			}
+		}
+	} else {
+		// Draw the circumference of the circle
+		for i := 0; i < 360; i++ {
+			angle := float64(i) * math.Pi / 180
+			xx := int(float64(dia/2) * math.Cos(angle))
+			yy := int(float64(dia/2) * math.Sin(angle))
+			img.SetColorIndex(x+xx, y+yy, col)
+		}
+	}
+}
+
+func DrawBalloon(img *image.Paletted, x, y, dia, xshear int, col, col2 uint8) {
+	DrawCircle(img, x, y, dia, true, col)
+	rad := dia / 2
+	DrawCircle(img, x+(rad/2), y-(rad/2), rad/2, true, col2)
+	for i := x - rad; i < x+rad; i++ {
+		DrawLine(img, x+xshear, y+dia, i, y, col)
+	}
+}
+
+func DrawEllipse(img *image.Paletted, x, y, xdia, ydia int, filled bool, col uint8) {
+	if filled {
+		// Draw a filled circle by connecting the points on the circumference
+		for i := 0; i < xdia; i++ {
+			for j := 0; j < ydia; j++ {
+				if math.Sqrt(float64((i-xdia/2)*(i-xdia/2)+(j-ydia/2)*(j-ydia/2))) < float64((xdia+ydia)/4) {
+					img.SetColorIndex(x+i-xdia/2, y+j-ydia/2, col)
+				}
+			}
+		}
+	} else {
+		// Draw the circumference of the circle
+		for i := 0; i < 360; i++ {
+			angle := float64(i) * math.Pi / 180
+			xx := int(float64(xdia/2) * math.Cos(angle))
+			yy := int(float64(ydia/2) * math.Sin(angle))
+			img.SetColorIndex(x+xx, y+yy, col)
 		}
 	}
 }
