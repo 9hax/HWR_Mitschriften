@@ -15,7 +15,8 @@ func CreateBasicGif(width, height int) *image.Paletted {
 		color.Black,
 		color.RGBA{0xff, 0x00, 0x00, 0xff},
 		color.RGBA{0x00, 0xff, 0x00, 0xff},
-		color.RGBA{0x00, 0x00, 0xff, 0xff}}
+		color.RGBA{0x00, 0x00, 0xff, 0xff},
+		color.RGBA{0x80, 0x80, 0xff, 0xff}}
 	rect := image.Rect(0, 0, width, height)
 	img := image.NewPaletted(rect, palette)
 	return img
@@ -180,6 +181,37 @@ func DrawEllipse(img *image.Paletted, x, y, xdia, ydia int, filled bool, col uin
 			xx := int(float64(xdia/2) * math.Cos(angle))
 			yy := int(float64(ydia/2) * math.Sin(angle))
 			img.SetColorIndex(x+xx, y+yy, col)
+		}
+	}
+}
+
+func DrawSpiral(img *image.Paletted, x, y, dia, length, spiralityx, spiralityy int, col uint8) {
+	{
+		// Draw the circumference of the circle
+		for i := 0; i < 360*length; i++ {
+			angle := float64(i) * math.Pi / 180
+			xx := int(float64(dia/2) * math.Cos(angle))
+			yy := int(float64(dia/2) * math.Sin(angle))
+			sx := (i / (360 / spiralityx))
+			sy := (i / (360 / spiralityy))
+			img.SetColorIndex(x+xx+sx, y+yy+sy, col)
+		}
+	}
+}
+
+func DrawEgg(img *image.Paletted, x, y int, c uint8) {
+	einEi := [][]int{
+		{0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1},
+		{0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+		{1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1},
+		{1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1},
+		{0, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1}}
+	for ybm, element := range einEi {
+		for xbm, bit := range element {
+			if bit == 1 {
+				img.SetColorIndex(x+xbm, y+ybm, c)
+			}
 		}
 	}
 }
