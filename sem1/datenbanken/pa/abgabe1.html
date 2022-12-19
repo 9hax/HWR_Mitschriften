@@ -373,7 +373,116 @@ Mithilfe dieser Anbindung können Geräte direkt verschiedenen Mitarbeiten zugew
 Die verschiedenen Geräte haben verschiedenste Eigenschaften, zum Beispiel die Liste von installierter Software und Daten zur Hardware.</p>
 <p>Durch diese Zusatzinformationen, die direkt an jedem Ticket hängen, kann der Support mögliche Rückfragen minimieren und die Effizienz erhöhen.</p>
 <h1 id="aufgabe-2">Aufgabe 2</h1>
-<p><img src="./PA_Aufgabe2.svg" alt="Alt text"></p>
+<p><img src="./PA_Aufgabe2_New.svg" alt="Picture of Peter-Chen-Notation"></p>
+<h1 id="aufgabe-3">Aufgabe 3</h1>
+<p><img src="./RDBM.png" alt="Picture of relational DB Model"></p>
+<h1 id="aufgabe-4">Aufgabe 4</h1>
+<pre class="hljs"><code><div><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Software"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Device"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"User"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Ticket"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasSoftware"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasDevice"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasTicket"</span>;
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Software"</span> (
+	<span class="hljs-string">"id"</span>					<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"name"</span>					<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"currentDownloadURL"</span>	<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"currentVersion"</span>		<span class="hljs-built_in">INTEGER</span>,
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Device"</span> (
+	<span class="hljs-string">"id"</span>			<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"installDate"</span>	<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"hasSoftware"</span>	<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"Vendor"</span>		<span class="hljs-built_in">TEXT</span>,
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"User"</span> (
+	<span class="hljs-string">"id"</span>		<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"name"</span>		<span class="hljs-built_in">TEXT</span>
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Ticket"</span> (
+	<span class="hljs-string">"id"</span>				<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"creationDate"</span>		<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"details"</span>			<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"supportNote"</span>		<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"conceriningDevice"</span>	<span class="hljs-built_in">INTEGER</span>
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasTicket"</span> (
+	<span class="hljs-string">"userid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"ticketid"</span> <span class="hljs-built_in">INTEGER</span>
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasSoftware"</span> (
+	<span class="hljs-string">"deviceid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"softwareid"</span> <span class="hljs-built_in">INTEGER</span>
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasDevice"</span> (
+	<span class="hljs-string">"userid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"deviceid"</span> <span class="hljs-built_in">INTEGER</span>
+);
+
+<span class="hljs-keyword">COMMIT</span>;
+
+</div></code></pre>
+<p>Version 2 ( mit Foreign Key Constraints)</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Software"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Device"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"User"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Ticket"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasSoftware"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasDevice"</span>;
+<span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasTicket"</span>;
+
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Software"</span> (
+	<span class="hljs-string">"id"</span>					<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"name"</span>					<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"currentDownloadURL"</span>	<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"currentVersion"</span>		<span class="hljs-built_in">INTEGER</span>,
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Device"</span> (
+	<span class="hljs-string">"id"</span>			<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"installDate"</span>	<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"hasSoftware"</span>	<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"Vendor"</span>		<span class="hljs-built_in">TEXT</span>,
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"User"</span> (
+	<span class="hljs-string">"id"</span>		<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"name"</span>		<span class="hljs-built_in">TEXT</span>
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"Ticket"</span> (
+	<span class="hljs-string">"id"</span>				<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"creationDate"</span>		<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"details"</span>			<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"supportNote"</span>		<span class="hljs-built_in">TEXT</span>,
+	<span class="hljs-string">"conceriningDevice"</span>	<span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span>(<span class="hljs-string">"conceriningDevice"</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"Device"</span> (<span class="hljs-string">"id"</span>)
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasTicket"</span> (
+	<span class="hljs-string">"userid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"ticketid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span>(<span class="hljs-string">"ticketid"</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"Ticket"</span> (<span class="hljs-string">"id"</span>),
+	<span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span>(<span class="hljs-string">"userid"</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"User"</span> (<span class="hljs-string">"id"</span>)
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasSoftware"</span> (
+	<span class="hljs-string">"deviceid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"softwareid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">"deviceid"</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"Device"</span> (<span class="hljs-string">"id"</span>),
+	<span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">"softwareid"</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"Software"</span> (<span class="hljs-string">"id"</span>)
+);
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">EXISTS</span> <span class="hljs-string">"hasDevice"</span> (
+	<span class="hljs-string">"userid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-string">"deviceid"</span> <span class="hljs-built_in">INTEGER</span>,
+	<span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">"userid"</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"User"</span> (<span class="hljs-string">"id"</span>),
+	<span class="hljs-keyword">FOREIGN</span> <span class="hljs-keyword">KEY</span> (<span class="hljs-string">"deviceid"</span>) <span class="hljs-keyword">REFERENCES</span> <span class="hljs-string">"Device"</span> (<span class="hljs-string">"id"</span>)
+);
+
+<span class="hljs-keyword">COMMIT</span>;
+
+</div></code></pre>
+<h1 id="aufgabe-5">Aufgabe 5</h1>
+<pre class="hljs"><code><div><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> <span class="hljs-keyword">User</span>, Device <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%Vierkorn'</span> <span class="hljs-keyword">and</span> Device.id <span class="hljs-keyword">LIKE</span> User.devices
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">name</span> <span class="hljs-keyword">FROM</span> Software, Ticket <span class="hljs-keyword">WHERE</span> Software.currentDownloadURL <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'http://%'</span> <span class="hljs-keyword">AND</span> Ticket.supportNote <span class="hljs-keyword">LIKE</span> <span class="hljs-string">'%INSTALLATION%"
+</span></div></code></pre>
 
 </body>
 </html>
